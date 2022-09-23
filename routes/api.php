@@ -30,13 +30,6 @@ Route::get('projects', function(Request $request) {
 
     $name = request('name');
 
-    // $projects = DB::table('projects')
-    // ->join('tasks', 'projects.id', '=', 'tasks.project_id')
-    // ->join('member_task', 'tasks.id', '=', 'member_task.task_id')
-    // ->join('members', 'members.id', '=', 'member_task.member_id')
-    // ->where('projects.project_name', '=', $name)
-    // ->get();
-
     $projects = Project::with('Task.Member')
     ->where('projects.project_name', '=', $name)
     ->get();
@@ -45,27 +38,6 @@ Route::get('projects', function(Request $request) {
 });
 
 Route::get('user', function() {
-
-    $userName = request('user');
-
-
-    // $userDetail = \DB::select('select * from tasks t inner join projects p 
-    // on t.project_id = p.id ;');
-
-    // $userDetail = DB::table('tasks')
-    // ->join('projects', 'tasks.project_id', '=', 'projects.id')
-    // ->join('members', 'tasks.member_id', '=', 'members.id')
-    // ->where('members.member_name', '=', $userName)
-    // ->get();
-    // return $userDetail;
-
-
-//     $userDetails = Task::with('member')
-//     ->join('projects', 'tasks.project_id', '=', 'projects.id')
-//     ->whereHas('member', function($query) {
-//         $query->where('member_name', 'joe');
-//    })->get();
-
 
     $userDetails = Project::with('Task.Member')
     ->whereHas('Task.member', function($query) {
